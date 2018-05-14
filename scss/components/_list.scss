@@ -1,0 +1,24 @@
+.list {
+  padding: 0;
+  margin: 0;
+
+  &__item {
+    display: flex;
+    list-style-type: none;
+    border: $border-color;
+    background-color: $color-list;
+    padding: 10px;
+  }
+
+  &__item>input:checked + label {
+    text-decoration: line-through;
+  }
+  &__item--text {
+    flex-grow: 2;
+    font-size: 14px;
+    padding:10px;
+    cursor: pointer;
+  }
+}
+
+

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+
+    <title>ToDo</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="head">
+        <h1>todos</h1>
+    </div>
+    <div class="todo">
+       <input type="text" class="enter__auswahl enter__auswahl--padded" placeholder="What need to be done?????"/>
+
+        <ul class="list">
+
+        </ul>
+
+        <div class="footer">
+            <div class="footer__padded">
+                <button class="alle">ALLE</button>
+                <button class="offen">OFFEN</button>
+                <button class="erledigt">ERLEDIGT</button>
+            </div>
+             <div class="footer__padded--pile">
+                <div class="footer__padded--pile">
+                    <div class="footer__padded--pile"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--nur ul, mit rendern aufbauen, die gleichen tag.classen mit js vergeben und css verhebt-->
+
+<script src="tools.js"></script>
+<script>
+
+    var todoArray =[];
+    var input = document.querySelector('.enter__auswahl.enter__auswahl--padded');
+
+    if(localStorage.getItem('todoList')){
+        todoArray = JSON.parse(localStorage.getItem('todoList'));
+    } else {
+        getAbruf();
+    }
+
+    renderToDo();
+
+    function handleKeyUp (evt) {
+        if(evt.code === 'Enter' && input.value !=='') {
+            var newItem ={
+                content:input.value,
+                checked: false
+            };
+            todoArray.push(newItem);
+            input.value = '';
+            saveToDo();
+            renderToDo();
+        }}
+
+
+    /*function check (e) {
+        var checkbox = e.target;
+        if (e.target && e.target.matches('.list__item__check')) {
+            var newItem ={
+                content:input.value,
+                checked:true
+            };
+            todoArray.push(newItem);
+
+        saveToDo();
+        renderToDo();
+    }}*/
+
+    function getAbruf() {
+        Tools.get('http://localhost:3002/todos', function (response) {
+            todoArray = response;
+            localStorage.setItem('todoList', JSON.stringify(todoArray));  //save in LocalStorage
+            renderToDo();
+        })
+    }
+
+    function postAbruf() {
+        Tools.post('http://localhost:3002/todos', todoArray,function (response) {
+        });
+    }
+
+    function saveToDo(){
+        localStorage.setItem('todoList', JSON.stringify(todoArray));  //save in LocalStorage;
+        postAbruf();
+        renderToDo();
+    }
+
+    function renderToDo() {
+        var list = document.querySelector('.list');
+        list.innerHTML = '';
+        todoArray.forEach(function (elem, index) {
+            var li = document.createElement('li');
+            li.classList.add('list__item');
+            var checked = '';
+            li.innerHTML = '<input type="checkbox" class ="list__item__check" id="" '+checked+' value="checked">\n' +
+                '<label for="status" class="list__item--text"> '+ elem.content+ '</label>\n' +
+                '<button class="list__item__button">X</button>';
+            li.id = index;
+            list.appendChild(li);
+        });
+    }
+         //var button= event.target;
+        //var li= button.parentNode;//event.target.patentNode;
+        //var ul = li.parentNode;  //event.target.patentNode.parentNode;
+
+    function remove(event){
+            todoArray.splice(event.target.parentNode.id,1);
+            saveToDo();
+            renderToDo();
+    }
+
+
+        //document.querySelector('ul').addEventListener('click',check(event));
+
+        document.querySelector('ul').addEventListener('click', Tools.delegate('li button', remove));
+        input.addEventListener('keyup', handleKeyUp);
+        checkboxes = document.querySelectorAll('.list > li > input[type=checkbox]');
+        for(var o of checkboxes) {
+            o
+        }
+
+
+
+</script>
+</body>
+
+
+</html>

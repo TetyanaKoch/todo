@@ -1,0 +1,26 @@
+$border_button:#af2f2f;
+
+.list__item__button {
+  height: 30px;
+  background-color:red;
+  cursor: pointer;
+  border-radius: 50%;
+  color:white;
+
+
+  transition: {
+    property: all;
+    duration: 0.5s;
+    delay: 0.3s;
+    timing-function:ease-in;
+  }
+  &:hover{
+    font-size: 15px;
+    color: darken($border_button, 50%);
+    border: {
+      color: $border_button;
+
+    }
+
+  }
+}

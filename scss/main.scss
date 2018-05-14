@@ -1,0 +1,49 @@
+/**
+ * Base
+ */
+$border-color:1px solid #ededed;
+$color-list:#ffffff;
+
+
+@import "base/reset";
+
+/**
+ * Components
+ */
+
+@import "components/list";
+@import "components/enter_footer";
+@import "components/button";
+
+body {
+  font:{
+    family: “Helvetica Neue”, Helvetica, Arial, Verdana, sans-serif;
+    size: 14px;
+  }
+}
+h1{
+  text-align: center;
+  font-size: 40px;
+}
+
+.wrapper{
+  background-color: #ededed;
+  padding: 30px;
+}
+
+
+/*Mobile*/
+@media only screen and (min-width : 320px)  {
+
+  .todo{
+    margin: 0;
+  }
+}
+
+@media screen and (min-width:1025px){
+
+  .todo{
+    width: 500px;
+    margin:  auto;
+  }
+}
